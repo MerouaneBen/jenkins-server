@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  jenkins_master:
+    image: jenkins/jenkins:lts
+    container_name: jenkins_master
+    hostname: jenkins_master
+    environment:
+      - JAVA_OPTS=-Dhudson.footerURL=https://example.com
+    ports:
+      - 8080:8080
+    expose:
+      - 50000
+    volumes:
+      - jenkins:/var/jenkins_home
+    networks:
+      - jenkins_network
+    restart: on-failure
+    privileged: true
+
+networks:
+  jenkins_network:
+    external: true
+volumes:
+  jenkins:
+    external: true

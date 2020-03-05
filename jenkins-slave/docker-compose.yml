@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+
+  jnlp:
+    build: .
+    image: jnlp_slave_docker:latest
+    container_name: jnlp-salve
+    hostname: jnlp
+    environment:
+       - JENKINS_URL=http://jenkins_master:8080
+       - JENKINS_TUNNEL=jenkins_master:50000
+       - JENKINS_SECRET=SECRET CODE HERE
+       - JENKINS_AGENT_NAME=salve01
+       - JENKINS_AGENT_WORKDIR=/home/jenkins/agent
+    privileged: true
+    volumes:
+       - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+       - jenkins_network
+    restart: on-failure
+
+networks:
+  jenkins_network:
+    external: true
